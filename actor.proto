@@ -1,0 +1,44 @@
+// chỉ định phiêm bản của protobuf mà ta muốn sử dụng
+syntax = "proto3";
+
+
+// message rỗng dùng để đưa vào những service không cần argument
+message Empty {}
+
+// mesage trong protobuf là các thể hiện của các class hoặc object trong các ngôn ngữ lập trình khác
+message Actor{
+    // các số 1 2 3 4 là các số viết theo định dạng của file proto. Do protocol
+    // buffer lưu dữ liệu dưới dạng binary nên ta phải định danh các field bằng số này 
+    string first_name = 2;
+    string last_name = 3;
+}
+
+// ta định nghĩa một actor id chỉ chứa một số nguyên là id của actor trong data base
+message ActorId{
+    int32 id = 1;
+}
+message ActorList {
+    // từ khoá repated đóng vai trò là một danh sách (mảng)
+   repeated Actor actor = 1;
+}
+
+// định nghĩa một message có chức năng thông báo số dòng bị affect khi thực hiện câu lệnh SQL
+message AffectedRows{
+    string rows = 1;
+}
+
+message ActorWithId{
+    string last_name = 1;
+    string actor_id = 2;
+    string first_name = 3;
+}
+
+// từ khoá service để định nghĩa một service (một gói hàm)
+// service list nhận một message rỗng và trả về list các actor
+service ActorService {
+    rpc List (Empty) returns (ActorList) {};
+    rpc Create (Actor) returns (AffectedRows) {};
+    rpc Get (ActorId) returns (Actor) {};
+    rpc Update(ActorWithId) returns (AffectedRows) {};
+    rpc Delete(ActorId) returns (AffectedRows) {};
+}
