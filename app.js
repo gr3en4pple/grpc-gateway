@@ -6,6 +6,7 @@ import asyncError from 'express-async-errors';
 import userRouter from './routes/user.route.js';
 import actorRouter from './routes/actor.route.js';
 import authRouter from './routes/auth.route.js';
+import filmRouter from './routes/film.route.js';
 
 import auth from './middlewares/auth.mdw.js';
 
@@ -22,6 +23,7 @@ app.get('/', function (req, res) {
 
 app.use('/api/users', userRouter);
 app.use('/api/actors',auth, actorRouter);
+app.use('/api/films',auth, filmRouter);
 app.use('/api/auth', authRouter);
 
 app.post('/', function (req, res) {

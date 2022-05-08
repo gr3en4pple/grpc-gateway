@@ -1,14 +1,14 @@
 import express from 'express';
 import { readFile } from 'fs/promises';
 
-import actorService from '../actorService.js';
+import filmService from '../filmService.js';
 import validate from '../middlewares/validate.mdw.js';
 
-const schema = JSON.parse(await readFile(new URL('../schemas/actor.json', import.meta.url)));
+const schema = JSON.parse(await readFile(new URL('../schemas/film.json', import.meta.url)));
 const router = express.Router();
 
 router.get('/', function (req, res) {
-  actorService.list({}, (error, response) => {
+  filmService.list({}, (error, response) => {
     if (!error) {
       return res.json(response);
     }
@@ -19,7 +19,7 @@ router.get('/', function (req, res) {
 router.get('/:id', function (req, res) {
   const id = req.params.id || 0;
 
-  actorService.get({ id }, (error, response) => {
+  filmService.get({ id }, (error, response) => {
     if (!error) {
       return res.json(response);
     }
@@ -28,9 +28,9 @@ router.get('/:id', function (req, res) {
 });
 
 router.post('/', validate(schema), function (req, res) {
-  const { first_name, last_name } = req.body;
+  const { body } = req;
 
-  actorService.create({ first_name, last_name }, (error, response) => {
+  filmService.create(body, (error, response) => {
     if (!error) {
       return res.json(response);
     }
@@ -40,7 +40,7 @@ router.post('/', validate(schema), function (req, res) {
 
 router.delete('/:id', function (req, res) {
   const id = req.params.id || 0;
-  actorService.delete({ id }, (error, response) => {
+  filmService.delete({ id }, (error, response) => {
     if (!error) {
       return res.json(response);
     }
@@ -50,8 +50,8 @@ router.delete('/:id', function (req, res) {
 
 router.patch('/:id', validate(schema), function (req, res) {
   const id = req.params.id || 0;
-  const { first_name, last_name } = req.body;
-  actorService.update({ actor_id: id, first_name, last_name }, (error, response) => {
+
+  filmService.update({ film_id: id, ...req.body }, (error, response) => {
     if (!error) {
       return res.json(response);
     }

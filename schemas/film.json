@@ -9,11 +9,29 @@
     },
     "release_year": {
       "type": "integer"
+    },
+    "description": {
+      "type": "string"
+    },
+    "rental_duration": {
+      "type": "integer"
+    },
+    "rental_rate": {
+      "type": "integer"
+    },
+    "replacement_cost": {
+      "type": "string"
+    },
+    "rating": {
+      "type": "string"
+    },
+    "special_features": {
+      "type": "string"
+    },
+    "length": {
+      "type": "integer"
     }
   },
-  "required": [
-    "title",
-    "language_id"
-  ],
+  "required": ["title", "language_id"],
   "additionalProperties": false
 }
